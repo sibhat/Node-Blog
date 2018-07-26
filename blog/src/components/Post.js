@@ -41,9 +41,9 @@ class Post extends React.Component{
         }
     }
     componentDidMount(){
-        axios(`http://localhost:8000/user/${this.props.id}`)
+        axios(`http://localhost:8000/user/${this.props.post.userId}`)
         .then(result => {
-                // console.log('get user: ', result.data.Users.name)
+                // console.log('get user: ', result.data.Users)
                 this.setState({
                     text: this.props.text,
                     user: "By " + result.data.Users.name
@@ -53,14 +53,13 @@ class Post extends React.Component{
     render(){
         return(
             <div className="card">
-
-                <div className="headline">{this.state.text} </div>
-                <PostLink to={`posts/${this.props.postId}`}> Read more </PostLink>              
+                <div className="headline">{this.props.post.text} </div>
+                <PostLink to={`posts/${this.props.post.id}`}> Read more </PostLink>              
                 <div className="author">
-                    <div class="img-container">
+                    <div className="img-container">
                         <img src="./assets/fido.jpg" alt=""/>
                     </div>
-                    <span> <UserLink to={`users/${this.props.id}`}> {this.state.user} </UserLink> </span>
+                    <span> <UserLink to={`users/${this.props.post.userId}`}> {this.state.user} </UserLink> </span>
                 </div>
             </div>
         )

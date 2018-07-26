@@ -7,30 +7,29 @@ export default class Tabs extends React.Component{
     super(props);
         
     this.state={
-      tags: [],
-      activeTab: null
+      tags: [{id: 0, tag: 'all'}]
     }
   }
   componentDidMount(){
     axios('http://localhost:8000/tags')
     .then(result => {
-      console.log({"result": result})
+      // console.log({"result": result})
       this.setState({
-         tags: result.data.tags, activeTab: result.data.tags[0]
+         tags: [...this.state.tags, ...result.data.tags]
       })
+      
     })
     .catch(error => console.log({"error": error}))
+    // this.props.activeTab = this.state.activeTab ? this.state.activeTab : {};
   }
-  activate = e => {
-    console.log({"clicked id": e})
-    this.setState({activeTab: this.state.tags[e - 1]});
-  }
+  
   render(){
+
     return(
         <div className="tabs">
           <div className="topics">
-          {this.state.tags.map(e => 
-            <Tab key={e.id} onClick={this.activate} active={this.state.activeTab} tab={e} />
+          {this.state.tags.map((e,index) => 
+            <Tab key={e.id} onClick={this.props.onClick} active={this.props.activeTab} tab={e} index={index}/>
             )}
           </div>
         </div>

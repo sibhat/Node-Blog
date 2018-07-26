@@ -5,11 +5,12 @@
   align-items: center;
   flex-direction: row;
   flex-wrap: wrap;
-  max-width: 1000px;
+  max-width: 900px;
   margin: 0 auto;
   height: 47px;
   background-color: #fff;
   text-transform: uppercase;
+  padding: 10px 0;
 }
 @media (min-width: 1280px) {
   .tabs {
@@ -22,7 +23,6 @@
   align-items: center;
   flex-direction: row;
   flex-wrap: wrap;
-  min-width: 190%;
 }
 .tabs .topics .title {
   font-size: 12px;

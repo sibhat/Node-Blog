@@ -1,5 +1,6 @@
 import React from 'react';
 import {Route, Link} from 'react-router-dom';
+import styled from 'styled-components';
 
 // components
 import Post from './Post';
@@ -7,19 +8,42 @@ import NewPost from './NewPost';
 import ReadPost from './ReadPost';
 
 import './posts.css'
-const PostList = ({posts}) => {
+
+const NavLink = styled(Link)`
+display: inline-block;
+text-decoration: none;
+color: #fff;
+background-color: #333;
+margin: 5px 5px;
+padding: 2px 10px;
+font-size: 12px;
+letter-spacing: 2px;
+cursor: pointer;
+font-weight: bold;
+&:hover{
+    text-decoration: underline;
+}
+`;
+const PostList = ({posts, filter}) => {
+    // console.log("new posts with tag", posts)
+    let posts1;
+    if(filter !== 'all'){
+        posts1 = posts.filter(post => (post.tags.includes(filter)))
+    }else{
+        posts1 = posts;
+    }
     return(
         <React.Fragment>
         
             <Route exact path='/posts' component={() => {
-                return (<React.Fragment>
-                    <h1>Post list</h1>
-                    <Link to='posts/new' > Post new Note </Link>
-                    <Link to='Users' > See all users </Link>
+                return (
+                <div className='posts'>
+                    <NavLink to='posts/new' > Post new Note </NavLink>
+                    <NavLink to='Users' > See all users </NavLink>
                     <div className="cards-container">
-                        {posts.map(element =>  <Post key={element.id} text={element.text} id={element.userId} postId={element.id}/> )}
+                        {posts1.map(post =>  <Post key={post.id} post={post} />)}
                     </div>
-                </React.Fragment>)
+                </div>)
             }} />
 
             <Route exact path='/posts/new' render={(props) => (<NewPost {...props}/>)} />

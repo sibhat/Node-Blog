@@ -31,7 +31,7 @@ server.post('/posts/', (req, res)=>{
     postDb.insert(post)
     .then(result=> postDb.get(result.id))
     .then(result => (res.status(200).json({PostID: result})))
-    .catch(error => res.status(500).json({"error": error.message}))
+    .catch(error => next(new Error ({code :500, "error": error.message})))
 })
 
 server.get('/posts/:id/tag/', (req, res)=>{

@@ -13,30 +13,44 @@ class App extends Component {
   constructor(){
     super();
     this.state = {
-      posts: []
+      posts: [],
+      activeTab: 'all'
     }
   }
   componentDidMount(){
+    let posts = [];
     axios('http://localhost:8000/posts')
-    .then(result =>  this.setState({posts: result.data.posts}))
+    .then(result =>  {
+      posts = result.data.posts;
+      this.setState({posts: posts})
+      posts = posts.map(element => {
+        axios(`http://localhost:8000/posts/${element.id}`)
+        .then(resultWithTags => {
+          // console.log("resutl with tags: ", resultWithTags);
+          element.tags = resultWithTags.data.posts.tags
+        })
+      });
+    })
     .catch(error => console.log(error));
   }
+  activate = e => {
+    // console.log({"clicked id": e})
+    this.setState({activeTab: e});
+  }
   render() {
-    // console.log('state from app: ',this.state)
-    
+    // console.log("resutl without tag: ", this.state.posts);      
     return (
       <dev className="blog">
-      <TopBar />
-      <Header />
-      <Tabs />
-      <Route exact path='/' component={()=> <Redirect to='/posts' />} />
-      <Route path='/posts' component={
-        (props) => <PostList {...props} posts={this.state.posts}/>
-      }/>
-      <Route path='/users' component={
-        (props) => <UserList {...props} />
-      }/>
-
+        <TopBar />
+        <Header />
+        <Tabs activeTab={this.state.activeTab} onClick={this.activate}/>
+        <Route exact path='/' component={()=> <Redirect to='/posts' />} />
+        <Route path='/posts' component={
+          (props) => <PostList {...props} posts={this.state.posts} filter={this.state.activeTab}/>
+        }/>
+        <Route path='/users' component={
+          (props) => <UserList {...props} />
+        }/>
       </dev>
     );
   }

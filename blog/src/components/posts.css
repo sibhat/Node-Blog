@@ -1,9 +1,18 @@
 .posts{
-    display: flex;
-    flex-wrap: wrap;
-    width: 100%;
+  width: 100%;
+  margin: 0 auto;
+  text-align: center;
+  padding-top: 20px;
+  box-sizing: border-box;
 }
-
+.posts h1{
+    font-family: Didot, serif;
+    font-weight: bold;
+    -ms-flex: 8 1;
+    flex: 8 1;
+    text-align: center;
+    color: #000;
+}
 .cards-container {
     display: flex;
     justify-content: space-evenly;
@@ -28,6 +37,7 @@
     width: 300px;
     margin-bottom: 16px;
     padding: 24px;
+    text-align: start;
   }
   .cards-container .card .headline {
     font-size: 25px;
