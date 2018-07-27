@@ -25,11 +25,13 @@ class ReadPost extends React.Component{
     }
     render(){
         console.log('readpost state tags: ', this.state.tags)
-    const tags = this.state.tags ? this.state.tags.map((i, index) => <li key={index}> {i} </li>) : null;
+    const tags = this.state.tags ? this.state.tags.map((i, index) => <li key={index}>#{i} </li>) : null;
         return(
-            <div className="post">
+            <div className="readPost">
                 <Link to="/posts" > back</Link>
-                <p>{this.state.text} {this.state.user}</p>
+                <p>{this.state.text}</p>
+                <p> {this.state.user} </p>
+                {this.state.tags ? 'tags' : null}
                 {tags}
             </div>
         )

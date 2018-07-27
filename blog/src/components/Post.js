@@ -59,7 +59,7 @@ class Post extends React.Component{
                     <div className="img-container">
                         <img src="./assets/fido.jpg" alt=""/>
                     </div>
-                    <span> <UserLink to={`users/${this.props.post.userId}`}> {this.state.user} </UserLink> </span>
+                    <span> <UserLink to={`users/read/${this.props.post.userId}`}> {this.state.user} </UserLink> </span>
                 </div>
             </div>
         )

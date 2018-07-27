@@ -1,8 +1,26 @@
 import React from 'react';
 import axios from 'axios';
+import styled from 'styled-components';
 import {Link} from 'react-router-dom';
 
 // import './posts.css'
+
+const NavLink = styled(Link)`
+display: inline-block;
+text-decoration: none;
+color: #fff;
+background-color: #333;
+margin: 5px 5px;
+padding: 2px 10px;
+font-size: 12px;
+letter-spacing: 2px;
+cursor: pointer;
+font-weight: bold;
+&:hover{
+    text-decoration: underline;
+}
+`;
+
 class NewUser extends React.Component{
     constructor(props){
         super(props);
@@ -22,7 +40,6 @@ class NewUser extends React.Component{
         }
         axios.post(`http://localhost:8000/user`, newPost)
         .then(result => {
-                console.log('get user: ', result)
                 this.props.history.push('/users')
         })
         .catch(error => console.log(error));
@@ -30,9 +47,9 @@ class NewUser extends React.Component{
     render(){
         return(
             <form className="newUser">
-                <Link to='/users' > cancle </Link>
-                <input type="text" name="text" id="text" placeholder='text' value={this.state.text} onChange={this.handleInput} required autoComplete='off'/>
-                <input type="submit" value="Add Post" onClick={this.addPost}/>
+                <input type="text" name="text" id="text" placeholder='Add User' value={this.state.text} onChange={this.handleInput} required autoComplete='off'/>
+                <input type="submit" value="Add User" onClick={this.addPost} className='newUser__submit' />
+                <NavLink to='/users' > Cancle </NavLink>
             </form>
         )
     }

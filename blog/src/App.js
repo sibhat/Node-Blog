@@ -40,7 +40,7 @@ class App extends Component {
   render() {
     // console.log("resutl without tag: ", this.state.posts);      
     return (
-      <dev className="blog">
+      <div className="blog">
         <TopBar />
         <Header />
         <Tabs activeTab={this.state.activeTab} onClick={this.activate}/>
@@ -51,7 +51,7 @@ class App extends Component {
         <Route path='/users' component={
           (props) => <UserList {...props} />
         }/>
-      </dev>
+      </div>
     );
   }
 }

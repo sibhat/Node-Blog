@@ -30,7 +30,7 @@ class ReadUser extends React.Component{
             return <p key={i}> {e.text} </p>
         })
         return(
-            <div className="post">
+            <div className="user">
                 <Link to="/users" > back</Link>
                 <p>Posts by {this.state.user} are </p>
                 {posts}

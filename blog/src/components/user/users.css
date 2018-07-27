@@ -1,0 +1,50 @@
+.users{
+    width: 100%;
+    text-align: center;
+}
+.users__list{
+    display: block;
+}
+.users__list a{
+    display: block;
+}
+.newUser{
+    width: 200px;
+    margin: auto;
+    padding-top: 50px;
+}
+.newUser input:first-child{
+    width: 100%;
+}
+
+.newUser input,
+.newUser input:visited{
+  width: 200px;
+  display: block;
+  margin: 10px 0;
+  padding: 10px 0 10px 10px;
+  border: none;
+  border-bottom: 1px solid darkslategray;
+  font-size: 16px;
+  outline: none;
+}
+.newUser input::placeholder{
+  text-transform: capitalize;
+}
+.newUser input:hover,
+.newUser input:focus{
+  outline: none;
+}
+.newUser__submit:visited,
+.newUser__submit{
+ display: inline-block;
+ text-decoration: none;
+ color: #fff;
+ background-color: #333;
+ margin: 5px 5px;
+ padding: 2px 6px;
+ font-size: 12px;
+ letter-spacing: 2px;
+ cursor: pointer;
+ font-weight: bold;
+}
