@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import axios from 'axios';
-import {Route, Redirect} from 'react-router-dom';
+import {Route, Redirect, withRouter} from 'react-router-dom';
+import {connect} from 'react-redux';
+import { getPosts } from './components/actions';
 
 // components
 import PostList from './components/PostList';
@@ -13,47 +14,33 @@ class App extends Component {
   constructor(){
     super();
     this.state = {
-      posts: [],
       activeTab: 'all'
     }
   }
   componentDidMount(){
-    let posts = [];
-    axios('http://localhost:8000/posts')
-    .then(result =>  {
-      posts = result.data.posts;
-      this.setState({posts: posts})
-      posts = posts.map(element => {
-        axios(`http://localhost:8000/posts/${element.id}`)
-        .then(resultWithTags => {
-          // console.log("resutl with tags: ", resultWithTags);
-          element.tags = resultWithTags.data.posts.tags
-        })
-      });
-    })
-    .catch(error => console.log(error));
+    this.props.getPosts();
   }
   activate = e => {
-    // console.log({"clicked id": e})
     this.setState({activeTab: e});
   }
   render() {
-    // console.log("resutl without tag: ", this.state.posts);      
     return (
       <div className="blog">
         <TopBar />
         <Header />
         <Tabs activeTab={this.state.activeTab} onClick={this.activate}/>
         <Route exact path='/' component={()=> <Redirect to='/posts' />} />
+
         <Route path='/posts' component={
-          (props) => <PostList {...props} posts={this.state.posts} filter={this.state.activeTab}/>
-        }/>
-        <Route path='/users' component={
-          (props) => <UserList {...props} />
-        }/>
+          (props) => <PostList {...props} filter={this.state.activeTab}/>
+        }/> 
+        <Route path='/users' component={UserList} />
       </div>
     );
   }
 }
-
-export default App;
+const mapStatetoProps = state=>{
+  return{
+  }
+}
+export default withRouter(connect(mapStatetoProps, { getPosts })(App));

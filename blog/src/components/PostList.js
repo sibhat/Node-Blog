@@ -1,6 +1,8 @@
 import React from 'react';
 import {Route, Link} from 'react-router-dom';
 import styled from 'styled-components';
+import {connect} from 'react-redux';
+
 
 // components
 import Post from './Post';
@@ -25,7 +27,6 @@ font-weight: bold;
 }
 `;
 const PostList = ({posts, filter}) => {
-    // console.log("new posts with tag", posts)
     let posts1;
     if(filter !== 'all'){
         posts1 = posts.filter(post => (post.tags.includes(filter)))
@@ -34,7 +35,6 @@ const PostList = ({posts, filter}) => {
     }
     return(
         <React.Fragment>
-        
             <Route exact path='/posts' component={() => {
                 return (
                 <div className='posts'>
@@ -45,12 +45,16 @@ const PostList = ({posts, filter}) => {
                     </div>
                 </div>)
             }} />
-
             <Route exact path='/posts/new' render={(props) => (<NewPost {...props}/>)} />
             <Route exact path='/posts/:id' render={(props) => (<ReadPost {...props}/>)} />
-
         </React.Fragment>
         
     )
 }
-export default PostList;
+const mapStatetoProps = state=>{
+    return{
+      posts: state.posts
+    }
+  }
+export default connect(mapStatetoProps)(PostList);
+  
