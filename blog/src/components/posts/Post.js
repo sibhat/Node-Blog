@@ -41,7 +41,7 @@ class Post extends React.Component{
         }
     }
     componentDidMount(){
-        axios(`http://localhost:8000/user/${this.props.post.userId}`)
+        axios(`http://localhost:8000/api/user/${this.props.post.userId}`)
         .then(result => {
                 // console.log('get user: ', result.data.Users)
                 this.setState({
@@ -51,9 +51,11 @@ class Post extends React.Component{
         })
     }
     render(){
+                
+        const text = <div className="headline"> {this.props.post.text.length < 150 ? this.props.post.text : this.props.post.text.slice(0, 200) + "..."} </div>
         return(
             <div className="card">
-                <div className="headline">{this.props.post.text} </div>
+                {text}
                 <PostLink to={`posts/${this.props.post.id}`}> Read more </PostLink>              
                 <div className="author">
                     <div className="img-container">

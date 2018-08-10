@@ -43,7 +43,7 @@ class UserList extends React.Component {
         }
     }
     componentDidMount(){
-        axios(`http://localhost:8000/user`)
+        axios(`http://localhost:8000/api/user`)
         .then(result => this.setState({
             users: result.data.Users
         }))

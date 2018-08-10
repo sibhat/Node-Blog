@@ -11,7 +11,7 @@ export default class Tabs extends React.Component{
     }
   }
   componentDidMount(){
-    axios('http://localhost:8000/tags')
+    axios('http://localhost:8000/api/tags')
     .then(result => {
       // console.log({"result": result})
       this.setState({

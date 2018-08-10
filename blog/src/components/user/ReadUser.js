@@ -1,43 +1,45 @@
 import React from 'react';
-import axios from 'axios';
-import {Route, Link} from 'react-router-dom';
+import { Link} from 'react-router-dom';
+import { connect } from 'react-redux';
+import {readUserPost} from './actions';
 
-// import './posts.css'
-class ReadUser extends React.Component{
-    constructor(props){
-        super(props);
-        this.state = {
-            user: ' {author name} ',
-            texts: []
-        }
-    }
-    componentDidMount(){
-        axios(`http://localhost:8000/user/${this.props.match.params.id}`)
-        .then(result => (
-            axios(`http://localhost:8000/user/${result.data.Users.id}/post/`)
-            .then(resultWithPosts => (
-                this.setState({
-                    user: result.data.Users.name,
-                    texts: resultWithPosts.data.Users
-                })
-            ))
-            
-        ))
-        
-    }
-    render(){
-        const posts = this.state.texts.map((e, i) => {
-            return <p key={i}> {e.text} </p>
-        })
-        return(
-            <div className="user">
-                <Link to="/users" > back</Link>
-                <p>Posts by {this.state.user} are </p>
-                {posts}
+import UserProfile from './userProfile';
+import AddPost from './AddPost';
+
+import './users.css';
+
+const ReadUser = ({user, match}) => (
+    user?
+    <div className="user">
+        <div className="userRead">
+            <div className="userRead__profile">
+                <UserProfile data={user[0].postedBy}/>
+                {/* <p>Posts by {this.state.user} </p> */}
             </div>
-        )
+            <div className="userRead__posts">
+                <AddPost name={user[0].postedBy} id={match.params.id}/>
+                {  user ? user.map((e, i) => (
+                    <div key={i} className="card"> "{e.text}"  </div>
+                )) : <div> loadding </div>
+                }
+            </div>
+            <div className="userRead__info">
+                <Link to="/users" > back</Link>
+            </div>
+        </div>
+    </div>
+    : <div> Loading user </div> 
+)
+const mapStatetoProps = (state, ownProps) =>{    
+    // readUserPost(ownProps.match.params.id);
+    console.log('state is: ', state)
+    return{
+        user: state.user.user
     }
-    
-
 }
-export default ReadUser;
+const mapDispatchToProps = (dispatch, ownProps) =>{
+    return ({
+        getUser: dispatch(readUserPost(ownProps.match.params.id))
+    })
+}
+export default connect(mapStatetoProps, mapDispatchToProps)(ReadUser);

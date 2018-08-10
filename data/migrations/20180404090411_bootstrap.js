@@ -1,4 +1,4 @@
-exports.up = function(knex) {
+exports.up = function (knex) {
   return createUsersTable(knex)
     .then(createPostsTable)
     .then(createTagsTable)
@@ -9,18 +9,18 @@ exports.up = function(knex) {
     });
 };
 
-exports.down = function(knex) {
+exports.down = function (knex) {
   return knex.schema
     .dropTableIfExists('posttags')
-    .then(function() {
+    .then(function () {
       console.log('dropping tags');
       return knex.schema.dropTableIfExists('tags');
     })
-    .then(function() {
+    .then(function () {
       console.log('dropping posts');
       return knex.schema.dropTableIfExists('posts');
     })
-    .then(function() {
+    .then(function () {
       console.log('dropping users');
       return knex.schema.dropTableIfExists('users');
     })
@@ -30,14 +30,19 @@ exports.down = function(knex) {
 function createUsersTable(knex) {
   console.log('creating users table');
 
-  return new Promise(function(resolve, reject) {
+  return new Promise(function (resolve, reject) {
     knex.schema
-      .createTable('users', function(users) {
+      .createTable('users', function (users) {
         users.increments(); // id, integer, unsigned no sign as not negative numbers
         users
           .string('name', 128)
+        users
+          .string('username')
           .notNullable()
-          .unique();
+          .unique()
+        users
+          .string('password')
+          .notNullable();
 
         console.log('users table created');
         resolve(knex);
@@ -49,9 +54,9 @@ function createUsersTable(knex) {
 function createPostsTable(knex) {
   console.log('creating posts table');
 
-  return new Promise(function(resolve, reject) {
+  return new Promise(function (resolve, reject) {
     knex.schema
-      .createTable('posts', function(posts) {
+      .createTable('posts', function (posts) {
         posts.increments();
         posts.text('text').notNullable();
 
@@ -72,9 +77,9 @@ function createPostsTable(knex) {
 function createTagsTable(knex) {
   console.log('creating tags table');
 
-  return new Promise(function(resolve, reject) {
+  return new Promise(function (resolve, reject) {
     knex.schema
-      .createTable('tags', function(tags) {
+      .createTable('tags', function (tags) {
         tags.increments();
         tags
           .string('tag', 80)
@@ -91,9 +96,9 @@ function createTagsTable(knex) {
 function createPostTagsTable(knex) {
   console.log('creating posttags table');
 
-  return new Promise(function(resolve, reject) {
+  return new Promise(function (resolve, reject) {
     knex.schema
-      .createTable('posttags', function(posttags) {
+      .createTable('posttags', function (posttags) {
         posttags.increments();
         posttags
           .integer('postId')
